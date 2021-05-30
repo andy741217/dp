@@ -198,7 +198,19 @@ struct CarState {
   # blindspot sensors
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
+  
+  # tpms 
+  tpmsPressureFl @37 :Float32;
+  tpmsPressureFr @38 :Float32;
+  tpmsPressureRl @39 :Float32;
+  tpmsPressureRr @40 :Float32;
 
+  radarDistance @41 :Float32;
+  brakeHold @42 :Bool;    # AutoHold
+  cruiseGapSet @43 :UInt8;
+  standStill @44 :Bool;
+  limitSpeedmanual @45 :Bool;
+  
   struct WheelSpeeds {
     # optional wheel speeds
     fl @0 :Float32;
@@ -326,6 +338,9 @@ struct CarControl {
     leftLaneVisible @7: Bool;
     rightLaneDepart @8: Bool;
     leftLaneDepart @9: Bool;
+    leadDistance @10:Float32;
+    leadvRel @11:Float32;
+    leadyRel @12:Float32;
 
     enum VisualAlert {
       # these are the choices from the Honda
@@ -431,7 +446,18 @@ struct CarParams {
   communityFeature @46: Bool;  # true if a community maintained feature is detected
   fingerprintSource @49: FingerprintSource;
   networkLocation @50 :NetworkLocation;  # Where Panda/C2 is integrated into the car's CAN network
-
+  mdpsHarness @55: Bool;
+  sasBus @56: Int8;
+  fcaBus @57: Int8;
+  bsmAvailable @58: Bool;
+  lfaAvailable @59: Bool;
+  sccBus @60: Int8;
+  radarDisablePossible @61: Bool;
+  lvrAvailable @62: Bool;
+  evgearAvailable @63: Bool;
+  emsAvailable @64: Bool;
+  standStill @65: Bool;
+  
   struct LateralParams {
     torqueBP @0 :List(Int32);
     torqueV @1 :List(Int32);
@@ -443,6 +469,8 @@ struct CarParams {
     kiBP @2 :List(Float32);
     kiV @3 :List(Float32);
     kf @4 :Float32;
+    kfV @5 :List(Float32);
+    kfBP @6 :List(Float32);
   }
 
   struct LongitudinalPIDTuning {
@@ -452,6 +480,8 @@ struct CarParams {
     kiV @3 :List(Float32);
     deadzoneBP @4 :List(Float32);
     deadzoneV @5 :List(Float32);
+    kfBP @6 :List(Float32);
+    kfV @7 :List(Float32);
   }
 
   struct LateralINDITuning {
@@ -510,6 +540,7 @@ struct CarParams {
     subaruLegacy @22;  # pre-Global platform
     hyundaiLegacy @23;
     hyundaiCommunity @24;
+    hyundaiCommunityNonscc @25;
   }
 
   enum SteerControlType {
