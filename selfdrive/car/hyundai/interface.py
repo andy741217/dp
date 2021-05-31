@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from cereal import car
 from common.params import Params
-from common.op_params import opParams
+
 from selfdrive.config import Conversions as CV
 from selfdrive.car.hyundai.values import CAR, Buttons, Ecu, ECU_FINGERPRINT, FINGERPRINTS
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint, is_ecu_disconnected
@@ -314,7 +314,7 @@ class CarInterface(CarInterfaceBase):
 
     # these cars require a special panda safety mode due to missing counters and checksums in the messages
 
-    ret.mdpsHarness = opParams().get('MdpsHarnessEnabled')
+    ret.mdpsHarness = False if 593 in fingerprint[0] else True
     ret.sasBus = 0 if (688 in fingerprint[0] or not ret.mdpsHarness) else 1
     ret.fcaBus = 0 if 909 in fingerprint[0] else 2 if 909 in fingerprint[2] else -1
     ret.bsmAvailable = True if 1419 in fingerprint[0] else False
