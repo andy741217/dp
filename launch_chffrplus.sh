@@ -98,6 +98,7 @@ function two_init {
       fi
 
     "$DIR/installer/updater/updater" "file://$DIR/installer/updater/update.json"
+    fi
   else
     echo -n 0 > /data/params/d/dp_updated
   fi
